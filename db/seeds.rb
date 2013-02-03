@@ -5,8 +5,15 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-puts 'SETTING UP DEFAULT USER LOGIN'
-user = User.create! :name => 'First User', :email => 'user@example.com', :password => 'pleasem3', :password_confirmation => 'pleasem3'
-puts 'New user created: ' << user.name
-user2 = User.create! :name => 'Second User', :email => 'user2@example.com', :password => 'pleasem3', :password_confirmation => 'pleasem3'
-puts 'New user created: ' << user2.name
+puts 'ROLES'
+YAML.load(ENV['ROLES']).each do |role|
+  Role.find_or_create_by_name({ :name => role }, :without_protection => true)
+  puts 'role: ' << role
+end
+puts 'DEFAULT USERS'
+user = User.find_or_create_by_email :name => 'DavidK', :email => 'djk@hypnosisok.com', :password => 'apple123', :password_confirmation => 'apple123'
+puts 'user: ' << user.name
+user.add_role :admin
+user2 = User.find_or_create_by_email :name => 'Second User', :email => 'user2@example.com', :password => 'changeme', :password_confirmation => 'changeme'
+puts 'user: ' << user2.name
+user2.add_role :VIP

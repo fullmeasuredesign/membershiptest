@@ -1,4 +1,18 @@
 Membertest::Application.routes.draw do
+
+  authenticated :user do
+    root :to => 'home#index'
+  end
+
+  root :to => "home#index"
+
+  devise_for :users
+  resources :users
+
+  devise_scope :user do
+    get 'register', to: 'devise/registrations#new', as: :register
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

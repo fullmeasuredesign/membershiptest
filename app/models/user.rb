@@ -12,4 +12,10 @@ class User < ActiveRecord::Base
   # attr_accessible :title, :body
   validates_presence_of :name
   validates_uniqueness_of :name, :email, :case_sensitive => false
+  before_create :assign_role
+  
+  def assign_role
+    # assign a default role if no role is assigned
+    self.add_role :user if self.roles.first.nil?
+  end
 end

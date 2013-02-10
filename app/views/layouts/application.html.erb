@@ -23,32 +23,9 @@
   
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body class="<%= controller_name %> <%= action_name %>">
 
-<div class="navbar navbar-fixed-top">
-  <div class="navbar-inner">
-  	<div class="container">
-	    <a class="brand" href="/">HLT.COM</a>
-	    <ul class="nav">
-	      <li class="active"><a href="#">Home</a></li>
-	      <li><a href="#">Link</a></li>
-	      <li><a href="#">Link</a></li>
-	    </ul>
-	      <ul class="nav pull-right">
-	      	<% if user_signed_in? %>
-	      		<li><%= link_to current_user.name,
-	      			edit_user_registration_path %></li>
-	      		<li><%= link_to "Log Out", destroy_user_session_path,
-	      			method: :delete %></li>
-	      	<% else %>
-	      		<li><%= link_to "Register", new_user_registration_path %></li>
-	      		<li><%= link_to "Log In", new_user_session_path %></li>
-	      	<% end %>
-	      </ul>
-	</div>
-  </div>
-</div>
-
+<%= render "layouts/navigation" %>
 
       <div class="container">
         <div class="content">

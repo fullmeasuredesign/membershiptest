@@ -1,4 +1,11 @@
 Membertest::Application.routes.draw do
+  mount StripeEvent::Engine => '/stripe'
+
+  get "content/silver"
+
+  get "content/gold"
+
+  get "content/platinum"
 
   authenticated :user do
     root :to => 'home#index'
@@ -6,12 +13,14 @@ Membertest::Application.routes.draw do
 
   root :to => "home#index"
 
-  devise_for :users
-  resources :users
-
+  devise_for :users, :controllers => { :registrations => 'registrations' }
   devise_scope :user do
+    put 'update_plan', :to => 'registrations#update_plan'
+    put 'update_card', :to => 'registrations#update_card'
     get 'register', to: 'devise/registrations#new', as: :register
   end
+
+  resources :users
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
